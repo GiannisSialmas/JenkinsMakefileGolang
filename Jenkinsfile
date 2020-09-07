@@ -19,7 +19,7 @@ node {
         stage('Tag-Git') { 
             gitTag = sh (
                 script: """#!/bin/bash
-                gitversion | jq -r \".SemVer\"
+                /tools/dotnet-gitversion
                 """,
                 returnStdout: true
             ).trim()
