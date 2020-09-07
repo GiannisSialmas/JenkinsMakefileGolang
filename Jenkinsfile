@@ -18,9 +18,7 @@ node {
     docker.image('gittools/gitversion').inside {
         stage('Tag-Git') { 
             gitTag = sh (
-                script: """#!/bin/bash
-                /tools/dotnet-gitversion
-                """,
+                script: "/tools/dotnet-gitversion /showvariable SemVer",
                 returnStdout: true
             ).trim()
             echo "Git Tag is ${gitTag}"
