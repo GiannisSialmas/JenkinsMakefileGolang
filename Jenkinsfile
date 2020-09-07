@@ -15,14 +15,20 @@ node {
         }
     }
 
+    docker.image('gittools/gitversion').inside {
+        stage('Tag-Git') { 
+            gitTag = sh (
+                script: """#!/bin/bash
+                gitversion | jq -r \".SemVer\"
+                """,
+                returnStdout: true
+            ).trim()
+            echo "Git Tag is ${gitTag}"
+        }
+    }
+
     // stage('Tag-Git') { 
-	// 	gitTag = sh (
-	// 		script: """#!/bin/bash
-	// 		gitversion | jq -r \".SemVer\"
-	// 		""",
-	// 		returnStdout: true
-	// 	).trim()
-    //     echo "Git Tag is ${gitTag}"
+
     // }
     // stage('Tag-Artifact') { 
     //     sh "mv bin/main bin/main-$(gitversion | jq -r \".SemVer\")"
