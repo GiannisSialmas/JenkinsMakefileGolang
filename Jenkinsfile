@@ -15,10 +15,10 @@ node {
         }
     }
 
-    docker.image('gittools/gitversion').inside {
+    docker.image('tboeker/gitversion').inside {
         stage('Tag-Git') { 
             gitTag = sh (
-                script: "/tools/dotnet-gitversion /showvariable SemVer",
+                script: "git-version /?",
                 returnStdout: true
             ).trim()
             echo "Git Tag is ${gitTag}"
