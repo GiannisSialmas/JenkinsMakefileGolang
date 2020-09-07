@@ -17,6 +17,8 @@ node {
 
     docker.image('gittools/gitversion').inside {
         stage('Tag-Git') { 
+            sh "apk update"
+            sh "apk add git"
             gitTag = sh (
                 script: "/tools/dotnet-gitversion . /output json /showvariable SemVer",
                 returnStdout: true
