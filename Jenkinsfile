@@ -3,7 +3,15 @@ node {
         scmInfo = checkout scm
     }
     stage('Test') { 
-        sh "make test"
+
+        // docker.image('golang:1.15').inside {
+        //     sh "make test"
+        // }
+
+        docker.image('golang:1.15').inside {
+            sh "go test ./src"
+        }
+
     }
     stage('Build') { 
         sh "make build"
