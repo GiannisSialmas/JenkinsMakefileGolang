@@ -5,7 +5,7 @@ node {
 
     docker.image('golang:1.15').inside {
         stage('Install-Make') { 
-            sh "apt update && apt install build-essential"
+            sh "apt update && apt install -y build-essential"
         }
         stage('Test') { 
             sh "make test"
