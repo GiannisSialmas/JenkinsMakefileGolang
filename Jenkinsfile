@@ -15,7 +15,7 @@ node {
         }
     }
 
-    docker.image('gittools/gitversion').inside {
+    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
         stage('Tag-Git') { 
             sh "apk update"
             sh "apk add git"
