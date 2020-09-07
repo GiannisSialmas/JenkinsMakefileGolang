@@ -15,10 +15,11 @@ node {
         }
     }
 
-    docker.image('tboeker/gitversion').inside {
-        stage('Tag-Git') { 
+    docker.image('alpine').inside {
+        stage('Tag-Git') {
+            sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-alpine.3.10-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
             gitTag = sh (
-                script: "git-version /?",
+                script: "gitversion /output json /showvariable SemVer",
                 returnStdout: true
             ).trim()
             echo "Git Tag is ${gitTag}"
