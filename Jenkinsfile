@@ -27,6 +27,16 @@ node {
         }
     }
 
+    docker.image('alpine').inside {
+        stage('Show-LS') { 
+            lsResult = sh (
+                script: "ls -alh",
+                returnStdout: true
+            ).trim()
+            echo "Git Tag is ${gitTag}"
+        }
+    }
+
     // stage('Tag-Git') { 
 
     // }
