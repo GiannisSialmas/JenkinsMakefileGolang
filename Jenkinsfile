@@ -15,17 +15,17 @@ node {
         }
     }
 
-    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
-        stage('Tag-Git') { 
-            sh "apk update"
-            sh "apk add git"
-            gitTag = sh (
-                script: "/tools/dotnet-gitversion . /output json /showvariable SemVer",
-                returnStdout: true
-            ).trim()
-            echo "Git Tag is ${gitTag}"
-        }
-    }
+    // docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
+    //     stage('Tag-Git') { 
+    //         sh "apk update"
+    //         sh "apk add git"
+    //         gitTag = sh (
+    //             script: "/tools/dotnet-gitversion . /output json /showvariable SemVer",
+    //             returnStdout: true
+    //         ).trim()
+    //         echo "Git Tag is ${gitTag}"
+    //     }
+    // }
 
     docker.image('alpine').inside {
         stage('Show-LS') { 
