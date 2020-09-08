@@ -33,7 +33,7 @@ node {
                 script: "ls -alh",
                 returnStdout: true
             ).trim()
-            echo "Git Tag is ${gitTag}"
+            echo "Git Tag is ${lsResult}"
         }
     }
 
