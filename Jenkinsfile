@@ -17,17 +17,36 @@ node {
 
     //Output results to file and parse it in next step.
     // Generate tag, git-tag and push to remote
-    // docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
-    //     stage('Tag-Git') { 
-    //         sh "apk update"
-    //         sh "apk add git"
-    //         gitTag = sh (
-    //             script: "/tools/dotnet-gitversion . /output json /showvariable SemVer",
-    //             returnStdout: true
-    //         ).trim()
-    //         echo "Git Tag is ${gitTag}"
+    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
+        stage('Tag-Git') { 
+            sh "/tools/dotnet-gitversion /output file /outputfile gitversion /showvariable SemVer"
+        }
+    }
+
+    docker.image('alpine').inside {
+
+        // I keep it very simple here. No build logic here that is specific to the application
+        // Make is the interface between jenkins and our application code.
+        stage('LS') { 
+            sh "ls -alh"
+        }
+
+    }
+
+    // stage('Git Push To Origin') {
+
+    //     stage('Git-Tag') { 
+
+    //         withCredentials([usernamePassword(credentialsId: your_credentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+
+
+    //             sh "git tag ${your_tag}"
+    //             sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repository} ${your_tag}"
+    //         }
     //     }
     // }
+
+
 
     // Static code analysis
     withCredentials([string(credentialsId: 'sonarqube-login', variable: 'sonarqubeLogin')]) {

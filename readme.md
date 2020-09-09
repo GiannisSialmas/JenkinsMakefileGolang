@@ -30,6 +30,6 @@ The second way it to pass the configuration information to the code scanner via 
 
 ## Add code analysis as stage in the CI pipeline.
 We use the docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') to spin up the static code analysis scanner docker image inside our test network, in which our SonarQube instance also exists.
-TODO: We then pass the sensitive info by unlocking the login secrets from the credentials plugin and pass it via an env variable to the sonar-scanner command
+We then pass the sensitive info by unlocking the login secrets from the credentials plugin and pass it to the sonar-scanner command
 
 Better do this with sonarcloud
