@@ -8,8 +8,9 @@ func main() {
 }
 
 func generateGreeting(name string) string {
-	password := fmt.Sprintf("password=%s", name)
-	fmt.Println(password)
 	greeting := fmt.Sprintf("Hello %s", name)
 	return greeting
+}
+
+func doNothing() {
 }

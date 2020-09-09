@@ -1,6 +1,8 @@
 version: '3.7'
 services:
   jenkins:
+    networks:
+      - test
     image: jenkins/jenkins:lts
     privileged: true
     user: root
@@ -12,3 +14,16 @@ services:
       - ~/jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
+
+
+  sonarqube:
+    image: sonarqube:lts
+    ports:
+      - 9000:9000
+    networks:
+      - test
+
+networks:
+    test:
+        #driver: bridge  #Use this when you have not created a network beforehand
+        external: true
