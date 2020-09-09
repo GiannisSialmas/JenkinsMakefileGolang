@@ -36,7 +36,7 @@ node {
 
     docker.image('sonarsource/sonar-scanner-cli').inside {
         stage('Check code') { 
-            sh "ll"
+            sh "ls -alh"
         }
     }
     // stage('Tag-Git') { 
