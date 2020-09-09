@@ -1,10 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	log "github.com/sirupsen/logrus"
+)
 
 func main() {
 	greeting := generateGreeting("Giannis")
-	fmt.Println(greeting)
+	log.Info(greeting)
 }
 
 func generateGreeting(name string) string {
@@ -12,5 +16,6 @@ func generateGreeting(name string) string {
 	return greeting
 }
 
+// This exists to trigger a warning when doing static code analysis
 func doNothing() {
 }

@@ -1,23 +1,22 @@
 node {
 
-    // I used the golang container as my project is a simple golang project
+    stage('Git-Checkout') {
+        scmInfo = checkout scm
+    }
+
+    // I used the golang container, as my project is a simple golang project
     docker.image('golang:1.15').inside {
-        // Install make 
-        // stage('Install dependencies') {
-        //     sh "apt update && apt install -y build-essential"
-        // }
-        stage('Git-Checkout') {
-            scmInfo = checkout scm
-        }
+
+        // I keep it very simple here. No build logic here that is specific to the application
+        // Make is the interface between jenkins and our application code.
         stage('Test') { 
-            sh "make test"
+            sh "make build"
         }
-        stage('Build') { 
-            sh "make compile"
-        }
+
     }
 
     //Output results to file and parse it in next step.
+    // Generate tag, git-tag and push to remote
     // docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
     //     stage('Tag-Git') { 
     //         sh "apk update"
@@ -30,24 +29,14 @@ node {
     //     }
     // }
 
-    docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') { c ->
+    // Static code analysis
+    docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') {
         stage('Code analysis') { 
             sh "sonar-scanner"
         }
     }
 
-    docker.image('sonarsource/sonar-scanner-cli').inside {
-        stage('Check code') { 
-            sh "ls -alh"
-        }
-    }
-    // stage('Tag-Git') { 
-
-    // }
-    // stage('Tag-Artifact') { 
-    //     sh "mv bin/main bin/main-$(gitversion | jq -r \".SemVer\")"
-    // }
-    // stage('Upload-To-Bitbucket') { 
+    // stage('Upload-To-Github-Releases') { 
     //     sh "echo Uploader to github"
     // }
 }

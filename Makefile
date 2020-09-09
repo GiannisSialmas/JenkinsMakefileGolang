@@ -1,10 +1,13 @@
+build: install-deps test compile
+
 compile:
 	go build -o bin/main src/main.go
 
+install-deps: 
+	go mod download
+
 test:
 	go test ./src
-
-build: test build
 
 run:
 	go run src/main.go
