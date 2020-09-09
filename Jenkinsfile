@@ -31,7 +31,7 @@ node {
 
     docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') { c ->
         stage('Print container id') { 
-            sh "sonar-scanner"
+            // sh "sonar-scanner"
         }
     }
 
