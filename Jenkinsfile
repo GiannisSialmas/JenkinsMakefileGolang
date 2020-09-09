@@ -31,13 +31,12 @@ node {
 
     docker.image('sonarsource/sonar-scanner-cli').inside { c ->
         stage('Print container id') { 
-            println "docker id is: ${c.id}"
         }
     }
 
     docker.image('sonarsource/sonar-scanner-cli').inside {
         stage('Check code') { 
-
+            sh "ll"
         }
     }
     // stage('Tag-Git') { 
