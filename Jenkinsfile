@@ -30,8 +30,8 @@ node {
     // }
 
     docker.image('sonarsource/sonar-scanner-cli').inside { c ->
-        stage('Check code') { 
-            println "release tag is: ${c.id}"
+        stage('Print container id') { 
+            println "docker id is: ${c.id}"
         }
     }
 
