@@ -1,11 +1,13 @@
 node {
-    stage('Git-Checkout') {
-        scmInfo = checkout scm
-    }
+
 
     docker.image('golang:1.15').inside {
-        stage('Install-Make') { 
+        stage('Install dependencies') {
             sh "apt update && apt install -y build-essential"
+            // sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-debian.9-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
+        }
+        stage('Git-Checkout') {
+            scmInfo = checkout scm
         }
         stage('Test') { 
             sh "make test"
@@ -27,15 +29,6 @@ node {
     //     }
     // }
 
-    docker.image('alpine').inside {
-        stage('Show-LS') { 
-            lsResult = sh (
-                script: "ls -alh",
-                returnStdout: true
-            ).trim()
-            echo "Git Tag is ${lsResult}"
-        }
-    }
 
     // stage('Tag-Git') { 
 
