@@ -17,7 +17,13 @@ node {
 
     //Output results to file and parse it in next step.
     // Generate tag, git-tag and push to remote
-    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
+    // docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside {
+    //     stage('Tag-Git') { 
+    //         sh "ls -alh"
+    //     }
+    // }
+
+    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside('--entrypoint /bin/sh') {
         stage('Tag-Git') { 
             sh "/tools/dotnet-gitversion /output file /outputfile gitversion /showvariable SemVer"
         }
