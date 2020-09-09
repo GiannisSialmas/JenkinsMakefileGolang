@@ -23,9 +23,11 @@ node {
     //     }
     // }
 
-    docker.image('gittools/gitversion:5.3.8-linux-alpine.3.10-x64-netcoreapp3.1').inside('/output file /outputfile gitversion /showvariable SemVer') {
+    docker.image('gittools/gitversion').inside {
         stage('Tag-Git') { 
+            sh " /tools/dotnet-gitversion . /output file /outputfile gitversion /showvariable SemVer"
             sh "ls -alh"
+            
         }
     }
 
