@@ -8,12 +8,14 @@ The make file has a build target, which installs the dependencies, runs the test
 ## Build configuration should be given as Jenkinsfile (scripted pipeline preferably).
 Done
 ##  CI pipeline should be triggered for all branches (master, feature) when a change is committed there.
-TODO: This needs a public instance of Jenkins with public ip and webhooks.
+I setup a jenkins server in Digital Ocean with a public ip and a webhook in github on push events.
+On the Jenkins side, i allowed `GitHub hook trigger for GITScm polling` to trigger builds by the webhook, and changed the Branch Specifier to TODO:
 
 # Bonus points 1:
 ## Use a Docker host to dynamically provision a docker container as a Jenkins agent node, let that run a single build, then tear down that node, without the build process (or Jenkins job definition) requiring any awareness of docker.
-TODO: Specify the docker plugin
-The jenkins job configuration does not interact directly with the docker binary. The docker.image('golang:1.15').inside directive is used to provide the execution environment for our build stage
+The docker plugin is used to dynamically provision a docker container as a Jenkins agent node.
+The Docker socket and binary are bind-mounted via docker volumes("Docker-out-of-Docker")
+The jenkins job configuration does not interact directly with the docker binary. The docker.image('golang:1.15').inside directive is used to provide the execution environment for our build stage.
 
 # Bonus points 2:
 The SonarQube is spinned up, as described inside the docker-compose file.
@@ -29,3 +31,5 @@ The second way it to pass the configuration information to the code scanner via 
 ## Add code analysis as stage in the CI pipeline.
 We use the docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') to spin up the static code analysis scanner docker image inside our test network, in which our SonarQube instance also exists.
 TODO: We then pass the sensitive info by unlocking the login secrets from the credentials plugin and pass it via an env variable to the sonar-scanner command
+
+Better do this with sonarcloud
