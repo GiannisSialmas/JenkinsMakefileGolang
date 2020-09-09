@@ -29,12 +29,17 @@ node {
     //     }
     // }
 
+    docker.image('sonarsource/sonar-scanner-cli').inside { c ->
+        stage('Check code') { 
+            println "release tag is: ${c.id}"
+        }
+    }
+
     docker.image('sonarsource/sonar-scanner-cli').inside {
         stage('Check code') { 
 
         }
     }
-
     // stage('Tag-Git') { 
 
     // }
