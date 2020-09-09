@@ -29,7 +29,7 @@ node {
     //     }
     // }
 
-    docker.image('sonarsource/sonar-scanner-cli').inside("--link ${c.id}:db") {
+    docker.image('sonarsource/sonar-scanner-cli').inside {
         stage('Check code') { 
 
         }
