@@ -31,6 +31,7 @@ node {
 
     docker.image('sonarsource/sonar-scanner-cli').inside { c ->
         stage('Print container id') { 
+            sh "sleep 100"
         }
     }
 
