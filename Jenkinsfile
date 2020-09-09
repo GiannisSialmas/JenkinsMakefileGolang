@@ -1,10 +1,11 @@
 node {
 
-
+    // I used the golang container as my project is a simple golang project
     docker.image('golang:1.15').inside {
-        stage('Install dependencies') {
-            sh "apt update && apt install -y build-essential"
-        }
+        // Install make 
+        // stage('Install dependencies') {
+        //     sh "apt update && apt install -y build-essential"
+        // }
         stage('Git-Checkout') {
             scmInfo = checkout scm
         }
