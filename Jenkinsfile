@@ -23,12 +23,24 @@ node {
     //     }
     // }
 
-    docker.image('gittools/gitversion').inside {
-        stage('Tag-Git') { 
-            sh " /tools/dotnet-gitversion . /output file /outputfile gitversion /showvariable SemVer"
-            sh "ls -alh"
+    // docker.image('gittools/gitversion').inside {
+    //     stage('Tag-Git') { 
+    //         sh " /tools/dotnet-gitversion . /output file /outputfile gitversion /showvariable SemVer"
+    //         sh "ls -alh"
             
+    //     }
+    // }
+
+    docker.image('debian').inside {
+
+        // I keep it very simple here. No build logic here that is specific to the application
+        // Make is the interface between jenkins and our application code.
+        stage('LS') { 
+            sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-alpine.3.10-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
+            sh "gitversion . /showvariable SemVer"
+            sh "sleep 20"
         }
+
     }
 
     docker.image('alpine').inside {
@@ -40,6 +52,8 @@ node {
         }
 
     }
+
+
 
     // stage('Git Push To Origin') {
 
