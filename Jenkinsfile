@@ -31,8 +31,10 @@ node {
 
     // Static code analysis
     docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') {
-        stage('Code analysis') { 
-            sh "sonar-scanner"
+        stage('Code analysis') {
+            withCredentials([string(credentialsId: 'sonarqube-login', variable: 'sonarqube-login')]) {
+                sh "sonar-scanner -Dsonar.login=${sonarqube-login}"
+            }
         }
     }
 
