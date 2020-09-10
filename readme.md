@@ -24,7 +24,7 @@ It exposes the 9000 port so that we can access the ui from our browser, and also
 The setup is done with the Embedded database used for testing and POCs. As a result, we lose our data when the container is removed.
 
 ## Install(docker) a local instance of SonarQube and run analysis on your project.
-To do the static code analysis with the SonarQube scanner manually, a bash script was created which spins up the SonarQube scanner inside the preexisting `test` network. We mount our application code inside the scanner with a volume in /use/src/. After the scanner completes the static code analysic, it sends the report to the sonarqube container via the test network we configured earlier.
+To do the static code analysis with the SonarQube scanner manually, a bash script was created which spins up the SonarQube scanner inside the preexisting `test` network. We mount our application code inside the scanner with a volume in /usr/src/. After the scanner completes the static code analysic, it sends the report to the sonarqube container via the test network we configured earlier.
 
 There are 2 ways to configure the runner. The first one is via a sonar-project.properties file in the root folder of our project. This is easy to implement but we expose sensitive information about the SonarQube login.
 The second way it to pass the configuration information to the code scanner via env variables. This is safer as we can keep the login info as secrets in our Jenkins instance and unlock them during the pipeline run for consumption.
@@ -33,4 +33,4 @@ The second way it to pass the configuration information to the code scanner via 
 We use the docker.image('sonarsource/sonar-scanner-cli').inside('--network="test"') to spin up the static code analysis scanner docker image inside our test network, in which our SonarQube instance also exists.
 We then pass the sensitive info by unlocking the login secrets from the credentials plugin and pass it to the sonar-scanner command
 
-Better do this with sonarcloud
+A better way to do this is with sonar cloud if there not other requirenments that block us.
