@@ -54,8 +54,8 @@ node {
                 sh "wget https://github.com/buildkite/github-release/releases/download/v1.0/github-release-linux-amd64 -O github-release"
                 sh "chmod u+x ./github-release"
                 githubRepo=scmInfo.GIT_URL.minus("https://github.com/").minus(".git")
-                // sh "./github-release 'JenkinsMakefileGolang 1.0.${currentBuild.number}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '1.0.${currentBuild.number}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
-                sh "./github-release 'JenkinsMakefileGolang 1.0.${currentBuild.number}' bin/* --commit '${scmInfo.GIT_COMMIT}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
+                // sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
+                sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
             }
         }
     }
