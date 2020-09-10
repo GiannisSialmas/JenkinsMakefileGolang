@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	log.Info("Program Starting")
 	greeting := generateGreeting("Giannis")
 	log.Info(greeting)
 }
