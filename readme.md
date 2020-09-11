@@ -37,3 +37,11 @@ We use the docker.image('sonarsource/sonar-scanner-cli').inside('--network="test
 We then pass the sensitive info by unlocking the login secrets from the credentials plugin and pass it to the sonar-scanner command
 
 A better way to do this is with sonar cloud if there not other requirenments that block us.
+
+
+# Extras
+## Upload binaries to hithub releases
+An alpine docker image is used as a base in which the github-release package is downloaded in order to upload the binaries to github releases.
+The github access token is unlocked from the credentials plugin and used in the command.
+
+The build number is used to generate the tag as the actual tagging mechanism has not been implemented yet.
