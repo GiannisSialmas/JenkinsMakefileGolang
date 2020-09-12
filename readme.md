@@ -44,4 +44,4 @@ A better way to do this is with sonar cloud if there not other requirenments tha
 An alpine docker image is used as a base in which the github-release package is downloaded in order to upload the binaries to github releases.
 The github access token is unlocked from the credentials plugin and used in the command.
 
-The build number is used to generate the tag as the actual tagging mechanism has not been implemented yet.
+The build number is used to generate the tag as the actual tagging mechanism has not been implemented yet. 
