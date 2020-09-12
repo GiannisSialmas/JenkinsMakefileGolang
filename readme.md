@@ -1,6 +1,6 @@
 # Application
 My application is a very simple golang program which prints a greeting. It is contained in `src/main.go` and it's tests are in `src/main_test.go`. Even though the logic is very simple and no external packages were needed, i added one so that it better emulates a production application, and included the package installation inside the Makefile.
- 
+   
 # Requirements:
 ## Jenkins infra should be used.
 Jenkins is setup with docker compose. I used volumes to keep the jenkins home folder even after deleting the jenkins container by accident, and to bind-mount the Docker socket and binary("Docker-out-of-Docker")
