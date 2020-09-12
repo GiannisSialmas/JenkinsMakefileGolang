@@ -30,15 +30,6 @@ node {
             sh "apt update"
             sh "apt install -y wget libunwind8 icu-devtools"
             sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-ubuntu.18.04-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
-            // sh "gitversion /output json /showvariable SemVer"
-
-            fullSemVer = sh (
-                script: """#!/bin/bash
-                gitversion /output json /showvariable FullSemVer
-                """,
-                returnStdout: true
-            ).trim()
-            println "fullSemVer is: ${fullSemVer}"
 
             semVer = sh (
                 script: """#!/bin/bash
@@ -65,9 +56,8 @@ node {
                 githubRepo=scmInfo.GIT_URL.minus("https://github.com/").minus(".git")
                 
                 // Figure out if this a master or a feature branch and act accordingly
-                version = "${scmInfo.GIT_BRANCH.endsWith('master') ? semVer : fullSemVer }"
                 preReleaseFlagEnabled = "${scmInfo.GIT_BRANCH.endsWith('master') ? '' : '--prerelease'}"
-                sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' ${preReleaseFlagEnabled} --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
+                sh "./github-release 'JenkinsMakefileGolang ${semVer}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${semVer}' ${preReleaseFlagEnabled} --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
             }
         }
     }
