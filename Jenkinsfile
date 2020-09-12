@@ -2,6 +2,7 @@ node {
 
     stage('Git-Checkout') {
         scmInfo = checkout scm
+        println "scmInfo.BRANCH_NAME is: ${scmInfo.GIT_BRANCH}"
     }
 
     // Static code analysis
@@ -31,13 +32,21 @@ node {
             sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-ubuntu.18.04-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
             // sh "gitversion /output json /showvariable SemVer"
 
-            version = sh (
+            fullSemVer = sh (
                 script: """#!/bin/bash
                 gitversion /output json /showvariable FullSemVer
                 """,
                 returnStdout: true
             ).trim()
-            println "release version is: ${version}"
+            println "fullSemVer is: ${fullSemVer}"
+
+            semVer = sh (
+                script: """#!/bin/bash
+                gitversion /output json /showvariable SemVer
+                """,
+                returnStdout: true
+            ).trim()
+            println "semVer is: ${semVer}"
 
 
         }
@@ -54,8 +63,11 @@ node {
                 sh "wget https://github.com/buildkite/github-release/releases/download/v1.0/github-release-linux-amd64 -O github-release"
                 sh "chmod u+x ./github-release"
                 githubRepo=scmInfo.GIT_URL.minus("https://github.com/").minus(".git")
-                // sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
-                sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
+                
+                // Figure out if this a master or a feature branch and act accordingly
+                version = "${scmInfo.GIT_BRANCH.endsWith('master') ? semVer : fullSemVer }"
+                preReleaseFlagEnabled = "${scmInfo.GIT_BRANCH.endsWith('master') ? '' : '--pre-release'}"
+                sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' ${preReleaseFlagEnabled} --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
             }
         }
     }
