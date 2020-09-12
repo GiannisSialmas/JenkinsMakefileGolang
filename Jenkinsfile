@@ -19,14 +19,14 @@ node {
     docker.image('golang:1.15').inside {
         // I keep it very simple here. No build logic that is specific to the application
         // Make is the interface between jenkins and our applications' code.
-        stage('Test') { 
+        stage('Install-deps-test-compile') { 
             sh "make compile-platforms"
         }
     }
 
     // This stops at icu
     docker.image('ubuntu:18.04').inside {
-        stage('Tag-Git') {
+        stage('Get-FullSemVer-And-SemVer') {
             sh "apt update"
             sh "apt install -y wget libunwind8 icu-devtools"
             sh "wget https://github.com/GitTools/GitVersion/releases/download/5.3.7/gitversion-ubuntu.18.04-x64-5.3.7.tar.gz -O gitversion.tar.gz && tar -xf gitversion.tar.gz && mv gitversion /usr/local/bin/"
@@ -66,7 +66,7 @@ node {
                 
                 // Figure out if this a master or a feature branch and act accordingly
                 version = "${scmInfo.GIT_BRANCH.endsWith('master') ? semVer : fullSemVer }"
-                preReleaseFlagEnabled = "${scmInfo.GIT_BRANCH.endsWith('master') ? '' : '--pre-release'}"
+                preReleaseFlagEnabled = "${scmInfo.GIT_BRANCH.endsWith('master') ? '' : '--prerelease'}"
                 sh "./github-release 'JenkinsMakefileGolang ${version}' bin/* --commit '${scmInfo.GIT_COMMIT}' --tag '${version}' ${preReleaseFlagEnabled} --github-repository '${githubRepo}' --github-access-token ${githubAccessToken}"
             }
         }
