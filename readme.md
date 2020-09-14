@@ -5,7 +5,7 @@ My application is a very simple golang program which prints a greeting. It is co
 ## Jenkins infra should be used.
 Jenkins is setup with docker compose. I used volumes to keep the jenkins home folder even after deleting the jenkins container by accident, and to bind-mount the Docker socket and binary("Docker-out-of-Docker")
 ## The project/code should be stored in an external SCM (git based).
-I used github.
+I used github. 
 ## Build should be done using Makefile.
 The make file has a build target, which installs the dependencies, runs the tests and compiles the code to a binary.
 ## Build configuration should be given as Jenkinsfile (scripted pipeline preferably).
