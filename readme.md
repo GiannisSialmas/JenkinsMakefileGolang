@@ -5,7 +5,7 @@ My application is a very simple golang program which prints a greeting. It is co
 ## Jenkins infra should be used.
 Jenkins is setup with docker compose. I used volumes to keep the jenkins home folder even after deleting the jenkins container by accident, and to bind-mount the Docker socket and binary("Docker-out-of-Docker")
 ## The project/code should be stored in an external SCM (git based).
-I used github.
+I used github. 
 ## Build should be done using Makefile.
 The make file has a build target, which installs the dependencies, runs the tests and compiles the code to a binary.
 ## Build configuration should be given as Jenkinsfile (scripted pipeline preferably).
@@ -14,7 +14,7 @@ Done
 I setup a jenkins server in Digital Ocean with a public ip and a webhook in github on push events.
 On the Jenkins side, i allowed `GitHub hook trigger for GITScm polling` to trigger builds by the webhook.
 In `Branches to build` i added two `Branch Specifiers`: `*/master` and `*/feature**`
-
+ 
 # Bonus points 1:
 ## Use a Docker host to dynamically provision a docker container as a Jenkins agent node, let that run a single build, then tear down that node, without the build process (or Jenkins job definition) requiring any awareness of docker.
 The docker plugin is used to dynamically provision a docker container as a Jenkins agent node.
